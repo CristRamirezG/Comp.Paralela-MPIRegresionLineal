@@ -5,11 +5,11 @@ Esta aplicación utiliza un modelo de regresión lineal, que utiliza los datos h
 La aplicación lee la fecha como el primer argumento de la línea de comandos, el formato
 de fecha corresponde al ISO 8601.
 
-formato de ejecucion:
+Formato de ejecución:
 ```
 mpirun -hostfile <Archivo con ip de las maquinas> <dir Ejecutable> <DD-MM-YYYY>
 ```
-Ejemplo de ejecucion:
+Ejemplo de ejecución:
 ```
 mpirun -hostfile maquinas ./dist/programa 01-09-2024
 ```
