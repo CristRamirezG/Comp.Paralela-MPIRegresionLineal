@@ -10,6 +10,6 @@ mpirun -hostfile <Archivo con ip de las maquinas> <dir Ejecutable> <DD-MM-YYYY>
 ```
 Ejemplo de ejecución:
 ```
-mpirun -hostfile maquinas ./dist/programa 01-09-2024
+mpirun -hostfile maquinas.txt ./dist/programa 01-09-2024
 ```
 Nota: Asegúrate de tener OpenMPI instalado y configurado correctamente en todas las máquinas que se utilizarán para la ejecución en paralelo.
