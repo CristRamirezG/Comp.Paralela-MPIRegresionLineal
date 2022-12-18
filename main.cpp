@@ -108,10 +108,14 @@ int main(int argc, char* argv[])
 
     // Leemos las líneas restantes del archivo y las procesamos
     string line;
+    
     while (getline(file, line)){
+
+
         // Si el índice del proceso actual es 0, procesamos la línea
         if (world_rank == 0)
         {
+    
         // Separamos la línea en dos partes, utilizando el carácter ";" como separador
         size_t pos = line.find(";");
         string date_str = line.substr(0, pos);
@@ -139,10 +143,24 @@ int main(int argc, char* argv[])
 
 
         double accident = stod(accident_str);
-        dates.push_back(date_double);
-        accidents.push_back(accident);
+    
+
+         for (int Proceso = 1; Proceso < world_size; Proceso++)
+            {
+                cout<<Proceso<<endl;
+                MPI_Send(&date_double, 1, MPI_DOUBLE, Proceso, 0, MPI_COMM_WORLD);
+                MPI_Send(&accident, 1, MPI_DOUBLE, Proceso, 0, MPI_COMM_WORLD);
+                cout<<Proceso<<endl;
+            }
+
+
         }
         else{
+            double date,accident_double;
+            MPI_Recv(&date, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(&accident_double, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            dates.push_back(date);
+            accidents.push_back(accident_double);
            
         }
 
@@ -150,6 +168,9 @@ int main(int argc, char* argv[])
 
     // Cerramos el archivo
     file.close();
+
+    MPI_Bcast(&dates, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&accidents, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     // Calculamos la pendiente de la recta que mejor se ajusta a los datos con la maquina principal
     double slope;
@@ -217,7 +238,7 @@ int main(int argc, char* argv[])
             {
                 MPI_Send(&date_arg1, 1, MPI_DOUBLE, i, 0, MPI_COMM_WORLD);
             }
-    
+    // Calculamos la predicción utilizando la ecuación de la recta con los valores determinados por las distintas maquinas (y = mx + b)
     
 
     
@@ -226,8 +247,9 @@ int main(int argc, char* argv[])
         
     double date_arg1_recv;
     MPI_Recv(&date_arg1_recv, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    // Calculamos la predicción utilizando la ecuación de la recta con los valores determinados por las distintas maquinas (y = mx + b)
     double prediction = slope * date_arg1_recv + intercept;
+    cout << slope<<endl;
+    cout << intercept<<endl;
     cout << " // Cantidad de accidentes esperados: " << prediction << endl;
     
     }
