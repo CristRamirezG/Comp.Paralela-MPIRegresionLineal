@@ -152,20 +152,23 @@ int main(int argc, char* argv[])
     file.close();
 
     // Calculamos la pendiente de la recta que mejor se ajusta a los datos con la maquina principal
-    double slope = 0;
+    double slope;
+    double intercept;
     if (world_rank == 0)
     {
     slope = calculateSlope(dates, accidents);
+    // Calculamos el punto de intersección con el eje y (la constante)
+    intercept = calculateIntercept(dates, accidents, slope);
     }
 
     // Enviamos la pendiente a los demás procesos/maquinas
     MPI_Bcast(&slope, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&intercept, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+   
+     
 
-    // Calculamos el punto de intersección con el eje y (la constante)
-    double intercept = calculateIntercept(dates, accidents, slope);
 
-
-
+    MPI_Barrier(MPI_COMM_WORLD);
 
     // Mostramos el resultado por pantalla por el proceso 0
     if (world_rank == 0)
@@ -210,15 +213,27 @@ int main(int argc, char* argv[])
             }
         }
 
+    for (int i = 1; i < world_size; i++)
+            {
+                MPI_Send(&date_arg1, 1, MPI_DOUBLE, i, 0, MPI_COMM_WORLD);
+            }
+    
+    
 
+    
+    }
+    else{
+        
+    double date_arg1_recv;
+    MPI_Recv(&date_arg1_recv, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     // Calculamos la predicción utilizando la ecuación de la recta con los valores determinados por las distintas maquinas (y = mx + b)
-    double prediction = slope * date_arg1 + intercept;
-
+    double prediction = slope * date_arg1_recv + intercept;
     cout << " // Cantidad de accidentes esperados: " << prediction << endl;
+    
     }
 
-
-    // Finalizamos OpenMPI
     MPI_Finalize();
+    // Finalizamos OpenMPI
+    
     return 0;
 }
