@@ -6,11 +6,15 @@ Para utilizar la aplicación, proporcione la fecha en formato ISO 8601 como el p
 
 Formato de ejecución:
 ```
-mpirun -hostfile <Archivo con ip de las maquinas> <dir Ejecutable> <DD-MM-YYYY>
+mpirun -hostfile <Archivo con ip de las maquinas> <dir Ejecutable> <YYYY-MM-DD>
 ```
 Ejemplo de ejecución:
 ```
-mpirun -hostfile maquinas.txt ./dist/programa 01-09-2024
+mpirun -hostfile maquinas.txt ./dist/programa 2023-12-01
+```
+Resultado por consola:
+```
+Fecha: 2023-12-01 // Cantidad de accidentes esperados: 1.74096
 ```
 Nota: Asegúrate de tener OpenMPI instalado y configurado correctamente en todas las máquinas que se utilizarán para la ejecución en paralelo.
 
