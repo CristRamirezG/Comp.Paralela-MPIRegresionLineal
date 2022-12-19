@@ -74,10 +74,6 @@ double calculateIntercept(vector<double> dates, vector<double> accidents, double
     return intercept;
 }
 
-
-
-
-
 int main(int argc, char* argv[])
 {
     int day, month, year;
@@ -139,7 +135,6 @@ int main(int argc, char* argv[])
         MPI_Send(&date_double, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
         MPI_Send(&accident, 1, MPI_DOUBLE, 0, 1, MPI_COMM_WORLD);   
         
-
         }
         else{   //Proceso 0
 
@@ -153,7 +148,6 @@ int main(int argc, char* argv[])
                 accidents.push_back(accident_double);
             }
             
-           
         }
 
     }
@@ -225,7 +219,6 @@ int main(int argc, char* argv[])
                 return 1;
             }
         }
-
 
     // Calculamos la predicción utilizando la ecuación de la recta con los valores determinados por las distintas maquinas (y = mx + b)
     double prediction = slope * date_arg1 + intercept;
