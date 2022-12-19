@@ -169,7 +169,7 @@ int main(int argc, char* argv[])
     double intercept;
     if (world_rank == 0)
     {
-    //utilizando los datos de los vectores almacenados en el proceso 0 calcula 
+    //utilizando los datos de los vectores almacenados en el proceso 0 calcula la pendiente de la recta
     slope = calculateSlope(dates, accidents);
 
     // Calculamos el punto de intersección con el eje y (la constante)
