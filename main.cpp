@@ -110,7 +110,7 @@ int main(int argc, char* argv[])
         size_t pos = line.find(";");
         string date_str = line.substr(0, pos);
         string accident_str = line.substr(pos + 1);
-
+       
         //Separa la fecha en año mes y dia para luego convertir el valor resultante en un valor double
         size_t pos2 = date_str.find("-");
         string year_str = date_str.substr(0, pos2);
@@ -127,7 +127,7 @@ int main(int argc, char* argv[])
 
         //Ajusta el valor de la fecha mediante la funcion dateToDoble
         double date_double = dateToDouble(day,month,year);
-
+        
         //Ajusta el valor de los accidentes para que se maneje como un valor double
         double accident = stod(accident_str);
     
@@ -206,12 +206,12 @@ int main(int argc, char* argv[])
         if(month >= 10){
             cout<< year << "-" << month  << "-" << day;
             //Ajusta el valor de la fecha mediante la funcion dateToDoble 
-            date_arg1 = dateToDouble(year,month,day);
+            date_arg1 = dateToDouble(day,month,year);
         }
         else{
             if(month > 0){
                 cout<< year << "-0" << month  << "-" << day;
-                date_arg1 = dateToDouble(year,month,day);
+                date_arg1 = dateToDouble(day,month,year);
             }
             else{
 
