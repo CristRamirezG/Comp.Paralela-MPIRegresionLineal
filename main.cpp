@@ -127,7 +127,7 @@ int main(int argc, char* argv[])
 
         //Ajusta el valor de la fecha mediante la funcion dateToDoble
         double date_double = dateToDouble(day,month,year);
-        
+
         //Ajusta el valor de los accidentes para que se maneje como un valor double
         double accident = stod(accident_str);
     
@@ -182,7 +182,7 @@ int main(int argc, char* argv[])
     {
     //cout << "La pendiente de la recta que mejor se ajusta a los datos es: " << slope << endl;
     //cout << "El punto de intersección con el eje y (la constante) es: " << intercept << endl;
-    cout << "Para obtener datos correctos la fecha debe estar en el formato ISO 8601: DD-MM-YYYY" << endl;
+    cout << "Para obtener datos correctos la fecha debe estar en el formato ISO 8601: YYYY-MM-DD" << endl;
 
     //convierte el primer argumento de la línea de comandos a un String
     string arg1(argv[1]);
@@ -204,17 +204,40 @@ int main(int argc, char* argv[])
     //Validador para que los meses no sean negativos
     double date_arg1; 
         if(month >= 10){
-            cout<< year << "-" << month  << "-" << day;
-            //Ajusta el valor de la fecha mediante la funcion dateToDoble 
-            date_arg1 = dateToDouble(day,month,year);
-        }
-        else{
-            if(month > 0){
-                cout<< year << "-0" << month  << "-" << day;
+
+            if(day >= 10){
+                cout<< "Fecha: " << year << "-" << month  << "-" << day;
+                //Ajusta el valor de la fecha mediante la funcion dateToDoble 
                 date_arg1 = dateToDouble(day,month,year);
             }
             else{
-
+                if(day > 0){
+                    cout<< "Fecha: " << year << "-" << month  << "-0" << day;
+                    //Ajusta el valor de la fecha mediante la funcion dateToDoble 
+                    date_arg1 = dateToDouble(day,month,year);
+                }
+                else{
+                    cout<<"El formato ingresado es incorrecto" << endl;
+                    return 1;
+                }
+            }
+        }
+        else{
+            if(month > 0){
+                if(day >= 10){
+                cout<< "Fecha: " << year << "-0" << month  << "-" << day;
+                //Ajusta el valor de la fecha mediante la funcion dateToDoble 
+                date_arg1 = dateToDouble(day,month,year);
+                }
+                else{
+                    if(day > 0){
+                        cout<< "Fecha: " << year << "-0" << month  << "-0" << day;
+                        //Ajusta el valor de la fecha mediante la funcion dateToDoble 
+                        date_arg1 = dateToDouble(day,month,year);
+                    }
+                }
+            }
+            else{
                 cout<<"El formato ingresado es incorrecto" << endl;
                 return 1;
             }
